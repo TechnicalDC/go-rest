@@ -6,19 +6,18 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
 type User struct {
-	Name		string
-	City		string
-	Dob		string
-	Email 	string
-	Password string
-	Active	bool
+	Name		string	`json:"name"`
+	City		string	`json:"city"`
+	Dob		string	`json:"dateofbirth"`
+	Email 	string	`json:"email"`
+	Password string	`json:"-"`
+	Active	bool  	`json:"active"`
 }
 
 type Users struct {
@@ -61,18 +60,19 @@ func handleRequest(config Config) {
 
 func homePage(response http.ResponseWriter, request *http.Request) {
 
-	var user User;
 	var users Users;
 
-	user.Name = "Dilip Chauhan"
-	user.City = "Mumbai"
-	user.Active = true
-	user.Email = "xyz@google.com"
-	user.Password = "123"
-	user.Dob = "01/01/9999"
+	user := User{
+		City : "Mumbai",
+		Name : "Dilip Chauhan",
+		Active : true,
+		Email : "xyz@google.com",
+		Password : "123",
+		Dob : "01/01/9999",
+	}
 
 	users.User = user
-	data,_ := json.Marshal(users)
 
-	io.WriteString(response, string(data))
+	response.Header().Add("Content-Type", "application/json")
+	json.NewEncoder(response).Encode(users)
 }
