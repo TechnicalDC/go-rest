@@ -1,4 +1,6 @@
-// Rest api program
+/*
+REST api in golang
+*/
 package main
 
 import (
@@ -20,7 +22,7 @@ type User struct {
 }
 
 type Users struct {
-	User		[]User
+	User		User
 }
 
 type Config struct {
@@ -59,17 +61,18 @@ func handleRequest(config Config) {
 
 func homePage(response http.ResponseWriter, request *http.Request) {
 
-	var reader []byte;
+	var user User;
+	var users Users;
 
-	body, err := request.Body.Read(reader)
+	user.Name = "Dilip Chauhan"
+	user.City = "Mumbai"
+	user.Active = true
+	user.Email = "xyz@google.com"
+	user.Password = "123"
+	user.Dob = "01/01/9999"
 
-	if err != nil {
-		fmt.Println("Error")
-	}
+	users.User = user
+	data,_ := json.Marshal(users)
 
-	// body,_ := io.ReadCloser(request.Body.Read(reader)).Read(reader)
-
-	fmt.Println(reader, body)
-
-	io.WriteString(response, "Hello, world!\n")
+	io.WriteString(response, string(data))
 }
