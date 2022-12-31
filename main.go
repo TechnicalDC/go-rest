@@ -12,6 +12,7 @@ import (
 )
 
 type User struct {
+	ID			int		`json:"id"`
 	Name		string	`json:"name"`
 	City		string	`json:"city"`
 	Dob		string	`json:"dateofbirth"`
@@ -21,11 +22,10 @@ type User struct {
 }
 
 type Users struct {
-	User		User
+	User		[]User
 }
 
 type Config struct {
-	Ip			string
 	Port		string
 	DbIp		string
 	DbPort	string
@@ -55,24 +55,31 @@ func main() {
 
 func handleRequest(config Config) {
 	http.HandleFunc("/", homePage)
+	http.HandleFunc("/user", ManageUser)
 	log.Fatal(http.ListenAndServe(":" + config.Port, nil))
 }
 
 func homePage(response http.ResponseWriter, request *http.Request) {
+	response.Write([]byte("<h1>Welcome</h1>"))
+}
+
+func ManageUser(response http.ResponseWriter, request *http.Request) {
 
 	var users Users;
 
-	user := User{
-		City : "Mumbai",
-		Name : "Dilip Chauhan",
-		Active : true,
-		Email : "xyz@google.com",
-		Password : "123",
-		Dob : "01/01/9999",
+	switch request.Method {
+	case "GET":
+		response.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(users)
+	case "POST":
+		var newuser User
+		response.Header().Add("Content-Type", "application/json")
+
+		json.NewDecoder(request.Body).Decode(&newuser)
+
+		users.User = append(users.User, newuser)
+
+		json.NewEncoder(response).Encode(users)
 	}
-
-	users.User = user
-
-	response.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(response).Encode(users)
 }
+
