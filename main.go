@@ -8,15 +8,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"github.com/TechnicalDC/go-rest/models"
-	"github.com/TechnicalDC/go-rest/controllers"
+	m "github.com/TechnicalDC/go-rest/models"
+	r "github.com/TechnicalDC/go-rest/routers"
 )
 
 func main() {
 	fmt.Println("Hello World")
 
 	content, err := ioutil.ReadFile("./config.json")
-	var payload models.Config
+	var payload m.Config
 
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
@@ -27,6 +27,8 @@ func main() {
 		if err != nil {
 			log.Fatal("Error during Unmarshal(): ", err)
 		}
+
+		r.Routers()
 		fmt.Println(payload)
 	} else {
 		fmt.Println("Invalid JSON!")

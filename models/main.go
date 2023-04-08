@@ -11,7 +11,7 @@ type User struct {
 }
 
 type Users struct {
-	User		[]User
+	User		[]User	`json:"users"`
 }
 
 type Config struct {
