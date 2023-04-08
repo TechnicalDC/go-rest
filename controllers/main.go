@@ -27,10 +27,15 @@ func GetUser (reponse http.ResponseWriter, request *http.Request) {
 	var user models.User
 	var users models.Users
 
-	user.Name = "Dilip chuahan"
+	user.Name = "Dilip Chauhan"
+	user.Email = "xyz@gmail.com"
+	user.City = "Mumbai"
+
+	users.User[1] = user
 
 	fmt.Println(user)
 	fmt.Println(users)
 
+	reponse.Header().Add("content-type","text/json")
 	reponse.Write([]byte(user.Name))
 }

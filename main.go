@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World")
 
 	content, err := ioutil.ReadFile("./config.json")
 	var payload m.Config
@@ -29,7 +28,6 @@ func main() {
 		}
 
 		r.Routers()
-		fmt.Println(payload)
 	} else {
 		fmt.Println("Invalid JSON!")
 	}
