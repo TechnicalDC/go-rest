@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+
 	m "github.com/TechnicalDC/go-rest/models"
 	r "github.com/TechnicalDC/go-rest/routers"
 )
